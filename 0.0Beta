@@ -1,0 +1,104 @@
+enum RadioMessage {
+    message1 = 49434,
+    Connected = 22050,
+    ConnectionEstablished = 25692
+}
+radio.onReceivedMessage(RadioMessage.ConnectionEstablished, function () {
+    basic.showString("" + (TickImg))
+})
+input.onButtonPressed(Button.A, function () {
+    MENU_OPTION += 1
+    if (MENU_OPTION == 1) {
+        basic.showLeds(`
+            . . . . .
+            # . . . #
+            . . # . #
+            . . . # #
+            . # # # .
+            `)
+    } else if (MENU_OPTION == 2) {
+        basic.showLeds(`
+            . . . . .
+            . . . . .
+            # . # # #
+            . # # . #
+            . # . # .
+            `)
+    } else if (MENU_OPTION == 3) {
+        basic.showLeds(`
+            . # . . .
+            . . . . .
+            . . . # .
+            # . . # #
+            . . # # #
+            `)
+    } else if (MENU_OPTION == 4) {
+        basic.showLeds(`
+            . . . . .
+            . . . . .
+            . . . # .
+            # . . # #
+            . . # # #
+            `)
+    } else {
+        MENU_OPTION = 0
+    }
+})
+input.onButtonPressed(Button.B, function () {
+    if (MENU_OPTION == 0) {
+        radio.sendString("MicroBit0Connect")
+        basic.showLeds(`
+            . # # # .
+            # . # . #
+            # . # # #
+            # . . . #
+            . # # # .
+            `)
+        radio.sendMessage(RadioMessage.Connected)
+        if (RadioRecieved == 1) {
+            TickImg = images.createImage(`
+                . . . . .
+                . . . . #
+                . . . # .
+                # . # . .
+                . # . . .
+                `)
+            radio.sendString("" + (images.createImage(`
+                . . . . .
+                . . . . #
+                . . . # .
+                # . # . .
+                . # . . .
+                `)))
+            radio.sendMessage(RadioMessage.ConnectionEstablished)
+        } else {
+            basic.showLeds(`
+                # . . . #
+                . # . # .
+                . . # . .
+                . # . # .
+                # . . . #
+                `)
+        }
+    }
+})
+radio.onReceivedMessage(RadioMessage.Connected, function () {
+    RadioRecieved = 1
+})
+let RadioRecieved = 0
+let TickImg: Image = null
+let MENU_OPTION = 0
+MENU_OPTION = 0
+basic.showIcon(IconNames.Square)
+basic.pause(1000)
+basic.clearScreen()
+basic.showLeds(`
+    # . . # .
+    . . # # #
+    . # # # #
+    . . . # .
+    . . . # .
+    `)
+basic.forever(function () {
+	
+})
